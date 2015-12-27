@@ -13,6 +13,7 @@ public class Tests {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail();
 		}
 	}
 
