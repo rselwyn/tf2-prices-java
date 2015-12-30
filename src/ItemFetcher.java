@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
+import MarketData.*;
+
 
 public class ItemFetcher {
 	
@@ -24,7 +26,8 @@ public class ItemFetcher {
 	private float priceInKeys;
 	private float valueInUSD;
 	
-	
+	private Item item;
+	private String name;
 	public ItemFetcher(String url) throws IOException{
 		//Set doc.  Set the userAgen
 		doc = Jsoup.connect("http://backpack.tf"+url).userAgent(userAgent).timeout(1000).get();
@@ -32,7 +35,10 @@ public class ItemFetcher {
 		price = doc.getElementsByClass("item-panel-btns").first().child(0);
 		System.out.println(price.text());
 		decidePrimaryCurrency(price.text());
-		System.out.println(priceInRef);
+		System.out.println(valueInUSD);
+		
+
+		item = new Item(this.priceInRef, this.priceInKeys, this.valueInUSD, null, this.name);
 	}
 	
 	/*
@@ -41,11 +47,14 @@ public class ItemFetcher {
 	private void decidePrimaryCurrency(String which){
 
 		if(which.contains("$")){
-			this.valueInUSD = convertDollars(which.split(" ")[0]);
+			
+			System.out.println(which.substring(1));
+			this.valueInUSD = convertDollars(which.substring(1));
+			return;
 		}
 		try{
 			switch(which.split(" ")[1]){
-			case "ref": this.priceInRef = convertDashSeperated(which) ; break;
+			case "ref": this.priceInRef = convertDashSeperated(which,true) ; break;
 			case "keys": this.priceInKeys = Float.parseFloat(which.split(" ")[0]) ; break;
 			}
 		}
@@ -55,12 +64,16 @@ public class ItemFetcher {
 		}
 	}
 	
+	public Item getItem(){
+		return this.item;
+	}
+	
 	/*
 	 * Takes two numbers seperated by a - and gets the average
 	 * @param	refVal: THe expression to parse
 	 * @return	the average of the two numbers
 	 */
-	private float convertDashSeperated(String refVal){
+	private float convertDashSeperated(String refVal, boolean roundOr){
 		
 		//Two cases, one if it is a range, one if there is 1 val
 
@@ -68,7 +81,7 @@ public class ItemFetcher {
 			String[] vals = refVal.split(" ")[0].split("–");
 			float val = Float.parseFloat(vals[0])+Float.parseFloat(vals[1]);
 			val/=2;
-			val = round((double) val, .11f);
+			if (roundOr) val = round((double) val, .11f);
 			return val;	
 		}
 		else{
@@ -104,7 +117,7 @@ public class ItemFetcher {
 	 */
 	private float convertDollars(String exprWithDollars){
 		exprWithDollars = exprWithDollars.substring(1);
-		return convertDashSeperated(exprWithDollars);
+		return convertDashSeperated(exprWithDollars,false);
 	}
 	
 }

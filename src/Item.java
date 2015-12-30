@@ -1,17 +1,11 @@
+import MarketData.*;
 
 public class Item {
 	private float refPrice;
 	private float keyPrice;
 	private float dollarPrice;
 	
-	private enum Quality{
-		UNIQUE,
-		STRANGE,
-		UNUSUAL,
-		COLLECTORS,
-		HAUNTED,
-		VINTAGE
-	}
+	
 	
 	private Quality itemQuality;
 	
