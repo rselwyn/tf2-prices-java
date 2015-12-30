@@ -29,6 +29,7 @@ public class ItemFetcher {
 		price = doc.getElementsByClass("item-panel-btns").first().child(0);
 		System.out.println(price.text());
 		decidePrimaryCurrency(price.text());
+		System.out.println(priceInRef);
 	}
 	
 	/*
@@ -54,17 +55,33 @@ public class ItemFetcher {
 	 */
 	private float convertDashSeperated(String refVal){
 		//Two cases, one if it is a range, one if there is 1 val
-
+		if (containsChar("-".toCharArray()[0],refVal)){
+			String[] vals = refVal.split(" ")[0].split("-");
+			for (String s : vals) System.out.println(s);
+			System.out.println(Float.parseFloat((vals[0]+vals[1]))/2);
+			return Float.parseFloat((vals[0]+vals[1]))/2;	
+		}
+		else{
+			return Float.parseFloat(refVal.split(" ")[0]);
+		}
 		
-		String[] vals = refVal.split(" ")[0].split("-");
-		for (String s : vals) System.out.println(s);
-		System.out.println(Float.parseFloat((vals[0]+vals[1]))/2);
-		return Float.parseFloat((vals[0]+vals[1]))/2;
 	}
 	
+	/*
+	 * Takes a character and sees if it is in a string
+	 * @param	c: the value to look for
+	 * @param	s: the string to look in
+	 * @return	True or false, if c is in s
+	 */
 	private Boolean containsChar(char c, String s){
-		
+		for (char ch : s.toCharArray()){
+			if(ch == c){
+				return true;
+			}
+		}
+		return false;
 	}
+	
 	
 	/*
 	 * @param exprWithDollars:  The expression in the form of $XY-AB
