@@ -4,7 +4,7 @@ import java.util.HashMap;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
-public class Item {
+public class ItemFetcher {
 	
 	/*
 	 * Jsoup Variables
@@ -22,22 +22,28 @@ public class Item {
 	private float valueInUSD;
 	
 	
-	public Item(String url) throws IOException{
+	public ItemFetcher(String url) throws IOException{
 		//Set doc.  Set the userAgen
 		doc = Jsoup.connect("http://backpack.tf"+url).userAgent(userAgent).timeout(1000).get();
 		//Get the string inside of the area for price
 		price = doc.getElementsByClass("item-panel-btns").first().child(0);
 		System.out.println(price.text());
+		decidePrimaryCurrency(price.text());
 	}
 	
 	/*
 	 * Takes a string and decides whether the price 
 	 */
 	private void decidePrimaryCurrency(String which){
-		switch(which.split(" ")[1]){
-		case "ref": this.priceInRef = convertDashSeperated(which) ; break;
-		case "keys": this.priceInKeys = Float.parseFloat(which.split(" ")[0]) ; break;
-		default: this.valueInUSD = convertDollars(which.split(" ")[0]); break;
+		try{
+			switch(which.split(" ")[1]){
+			case "ref": this.priceInRef = convertDashSeperated(which) ; break;
+			case "keys": this.priceInKeys = Float.parseFloat(which.split(" ")[0]) ; break;
+			default: this.valueInUSD = convertDollars(which.split(" ")[0]); break;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	
@@ -47,10 +53,18 @@ public class Item {
 	 * @return	the average of the two numbers
 	 */
 	private float convertDashSeperated(String refVal){
+		//Two cases, one if it is a range, one if there is 1 val
+
+		
 		String[] vals = refVal.split(" ")[0].split("-");
+		for (String s : vals) System.out.println(s);
+		System.out.println(Float.parseFloat((vals[0]+vals[1]))/2);
 		return Float.parseFloat((vals[0]+vals[1]))/2;
 	}
 	
+	private Boolean containsChar(char c, String s){
+		
+	}
 	
 	/*
 	 * @param exprWithDollars:  The expression in the form of $XY-AB

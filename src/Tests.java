@@ -9,11 +9,11 @@ public class Tests {
 	@Test
 	public void test() {
 		try {
-			Item ref = new Item("/stats/Unique/Mann%20Co.%20Supply%20Crate%20Key/Tradable/Craftable");
+			ItemFetcher ref = new ItemFetcher("/stats/Strange/Silver%20Botkiller%20Minigun%20Mk.I/Tradable/Craftable");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			fail();
+			fail("Error");
 		}
 	}
 
