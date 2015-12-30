@@ -66,15 +66,20 @@ public class ItemFetcher {
 
 		if (refVal.contains("–")){
 			String[] vals = refVal.split(" ")[0].split("–");
-			for (String v : vals) System.out.println(v);
 			float val = Float.parseFloat(vals[0])+Float.parseFloat(vals[1]);
 			val/=2;
+			val = round((double) val, .11f);
 			return val;	
 		}
 		else{
 			return Float.parseFloat(refVal.split(" ")[0]);
 		}
 		
+	}
+	
+	//Round i to the nearest v
+	private float round(double i, float v){
+	    return Math.round(i/v) * v;
 	}
 	
 	/*
