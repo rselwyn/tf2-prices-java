@@ -1,9 +1,12 @@
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
+
 public class ItemFetcher {
 	
 	/*
@@ -36,14 +39,18 @@ public class ItemFetcher {
 	 * Takes a string and decides whether the price 
 	 */
 	private void decidePrimaryCurrency(String which){
+
+		if(which.contains("$")){
+			this.valueInUSD = convertDollars(which.split(" ")[0]);
+		}
 		try{
 			switch(which.split(" ")[1]){
 			case "ref": this.priceInRef = convertDashSeperated(which) ; break;
 			case "keys": this.priceInKeys = Float.parseFloat(which.split(" ")[0]) ; break;
-			default: this.valueInUSD = convertDollars(which.split(" ")[0]); break;
 			}
 		}
 		catch(Exception e){
+			//any other exception is unexpected
 			e.printStackTrace();
 		}
 	}
@@ -54,12 +61,15 @@ public class ItemFetcher {
 	 * @return	the average of the two numbers
 	 */
 	private float convertDashSeperated(String refVal){
+		
 		//Two cases, one if it is a range, one if there is 1 val
-		if (containsChar("-".toCharArray()[0],refVal)){
-			String[] vals = refVal.split(" ")[0].split("-");
-			for (String s : vals) System.out.println(s);
-			System.out.println(Float.parseFloat((vals[0]+vals[1]))/2);
-			return Float.parseFloat((vals[0]+vals[1]))/2;	
+
+		if (refVal.contains("–")){
+			String[] vals = refVal.split(" ")[0].split("–");
+			for (String v : vals) System.out.println(v);
+			float val = Float.parseFloat(vals[0])+Float.parseFloat(vals[1]);
+			val/=2;
+			return val;	
 		}
 		else{
 			return Float.parseFloat(refVal.split(" ")[0]);
