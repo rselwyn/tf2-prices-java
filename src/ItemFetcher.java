@@ -43,8 +43,9 @@ public class ItemFetcher {
 		//Print the value
 		System.out.println(valueInUSD);
 		//Set the url
-		this.url = url;
-		System.out.println(java.net.URLDecoder.decode(url, "UTF-8"));
+		this.url = java.net.URLDecoder.decode(url, "UTF-8");;
+		this.name = this.url.split("/")[3];
+		itemTypeToEnumeration(this.url.split("/")[2]);
 		//Construct a new item
 		item = new Item(this.priceInRef, this.priceInKeys, this.valueInUSD, null, this.name);
 	}
@@ -139,6 +140,7 @@ public class ItemFetcher {
 		else if (type.equalsIgnoreCase("collector's")) this.itemQuality = Quality.COLLECTORS;
 		else if (type.equalsIgnoreCase("Haunted")) this.itemQuality = Quality.HAUNTED;
 		else if (type.equalsIgnoreCase("vintage")) this.itemQuality = Quality.VINTAGE;
+		else System.out.println("Error parsing enumeration");
 	}
 	
 }

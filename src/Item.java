@@ -6,7 +6,6 @@ public class Item {
 	private float dollarPrice;
 	
 	
-	
 	private Quality itemQuality;
 	
 	private String itemName;
