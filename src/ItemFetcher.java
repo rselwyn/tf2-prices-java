@@ -42,9 +42,10 @@ public class ItemFetcher {
 		//Decide the primary listing currency
 		decidePrimaryCurrency(price.text());
 		//Print the value
-		System.out.println(valueInUSD);
+//		System.out.println(priceInKeys);
 		//Set the url
-		this.url = java.net.URLDecoder.decode(url, "UTF-8");;
+		this.url = java.net.URLDecoder.decode(url, "UTF-8");
+		//Set the name
 		this.name = this.url.split("/")[3];
 		itemTypeToEnumeration(this.url.split("/")[2]);
 		//Construct a new item
@@ -55,17 +56,20 @@ public class ItemFetcher {
 	 * Takes a string and decides whether the price 
 	 */
 	private void decidePrimaryCurrency(String which){
-
+		/*
+		 * If the string has a $, the price is in dollars
+		 * Take the substring and parse it to find the average between the two numbers
+		 */
 		if(which.contains("$")){
-			
-			System.out.println(which.substring(1));
+//			System.out.println(which.substring(1));
 			this.valueInUSD = convertDollars(which.substring(1));
+			//Break out so we don't hit the try catch
 			return;
 		}
 		try{
 			switch(which.split(" ")[1]){
-			case "ref": this.priceInRef = convertDashSeperated(which,true) ; break;
-			case "keys": this.priceInKeys = Float.parseFloat(which.split(" ")[0]) ; break;
+			case "ref": this.priceInRef = convertDashSeperated(which,true) ; break; //If it is refined, convert the dash seperated values and round it
+			case "keys": this.priceInKeys = Float.parseFloat(which.split(" ")[0]) ; break; 
 			}
 		}
 		catch(Exception e){
@@ -73,7 +77,9 @@ public class ItemFetcher {
 			e.printStackTrace();
 		}
 	}
-	
+	/*
+	 * Returns the item object
+	 */
 	public Item getItem(){
 		return this.item;
 	}
@@ -105,20 +111,7 @@ public class ItemFetcher {
 	    return Math.round(i/v) * v;
 	}
 	
-	/*
-	 * Takes a character and sees if it is in a string
-	 * @param	c: the value to look for
-	 * @param	s: the string to look in
-	 * @return	True or false, if c is in s
-	 */
-	private Boolean containsChar(char c, String s){
-		for (char ch : s.toCharArray()){
-			if(ch == c){
-				return true;
-			}
-		}
-		return false;
-	}
+	
 	
 	
 	/*
