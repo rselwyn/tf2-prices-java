@@ -1,4 +1,4 @@
-import MarketData.*;
+import ItemQualities.*;
 
 public class Item {
 	private float refPrice;

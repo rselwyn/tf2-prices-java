@@ -6,7 +6,8 @@ import java.util.regex.Pattern;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
-import MarketData.*;
+
+import ItemQualities.*;
 
 
 public class ItemFetcher {
@@ -27,7 +28,7 @@ public class ItemFetcher {
 	private float valueInUSD;
 	private Item item;
 	private String name;
-	private Quality itemQuality;
+	private Quality itemQuality; //Item Quality
 	
 	//Url
 	private String url;

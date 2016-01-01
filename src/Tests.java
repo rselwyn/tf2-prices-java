@@ -3,7 +3,8 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.junit.Test;
-import MarketData.*;
+
+import ItemQualities.*;
 
 public class Tests {
 

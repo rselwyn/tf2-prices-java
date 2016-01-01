@@ -1,4 +1,4 @@
-package MarketData;
+package ItemQualities;
 
 public enum Quality {
 		UNIQUE,
