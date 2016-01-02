@@ -7,7 +7,7 @@ public class Item {
 	
 	
 	private Quality itemQuality;
-	
+
 	private String itemName;
 	
 	public Item(float refPrice, float keyPrice, float dollarPrice, Quality q, String itemName){
@@ -24,6 +24,10 @@ public class Item {
 	
 	public float getKeyPrice(){
 		return this.keyPrice;
+	}
+	
+	public float getDollarPrice(){
+		return this.getDollarPrice();
 	}
 	
 	public String getType(){
