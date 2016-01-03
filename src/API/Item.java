@@ -28,7 +28,7 @@ public class Item {
 	}
 	
 	public float getDollarPrice(){
-		return this.getDollarPrice();
+		return this.dollarPrice;
 	}
 	
 	public String getType(){

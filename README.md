@@ -1,8 +1,8 @@
 # tf2-prices-java
-An Java API for getting TF2 Item prices from [TF2](http://www.teamfortress.com) website, [backpack.tf](http://www.backpack.tf).
+A Java API for getting TF2 Item prices from [TF2](http://www.teamfortress.com) website, [backpack.tf](http://www.backpack.tf).
 
 #API Use Requirements
-- JSOUP Jar Version 1.8.3, which can be downloaded [here](http://jsoup.org/packages/jsoup-1.8.3.jar).
+- JSoup Jar Version 1.8.3, which can be downloaded [here](http://jsoup.org/packages/jsoup-1.8.3.jar).
 - For the tests, JUNIT 4 (Add it in using your IDE)
 
 #General Setup

@@ -34,20 +34,23 @@ public class ItemFetcher {
 	private String url;
 	public ItemFetcher(String url) throws IOException{
 		//Set doc.  Set the userAgen
-		doc = Jsoup.connect("http://backpack.tf"+url).userAgent(userAgent).timeout(1000).get();
+		doc = Jsoup.connect("http://backpack.tf"+url).userAgent(userAgent).timeout(10000).get();
 		//Get the string inside of the area for price
 		price = doc.getElementsByClass("item-panel-btns").first().child(0);
 		//Just print the result
-		System.out.println(price.text());
+//  	System.out.println(price.text());
 		//Decide the primary listing currency
 		decidePrimaryCurrency(price.text());
 		//Print the value
-//		System.out.println(priceInKeys);
 		//Set the url
 		this.url = java.net.URLDecoder.decode(url, "UTF-8");
 		//Set the name
 		this.name = this.url.split("/")[3];
 		itemTypeToEnumeration(this.url.split("/")[2]);
+		//Set the other values
+
+		setOtherMonetaryValues();
+		
 		//Construct a new item
 		item = new Item(this.priceInRef, this.priceInKeys, this.valueInUSD, null, this.name);
 	}
@@ -135,6 +138,22 @@ public class ItemFetcher {
 		else if (type.equalsIgnoreCase("Haunted")) this.itemQuality = Quality.HAUNTED;
 		else if (type.equalsIgnoreCase("vintage")) this.itemQuality = Quality.VINTAGE;
 		else System.out.println("Error parsing enumeration");
+	}
+	
+	private void setOtherMonetaryValues(){
+		if(this.priceInRef != 0.0){
+			this.priceInKeys = priceInRef * MarketConstants.refToKeys;
+			this.valueInUSD = priceInRef * MarketConstants.dollarsToRef;
+			return;
+		}
+		else if(this.priceInKeys != 0.0){
+			this.priceInRef = priceInKeys * MarketConstants.keysToRef;
+			this.valueInUSD = priceInKeys * MarketConstants.keysToDollars;	
+		}
+		else if(this.valueInUSD != 0.0){
+			this.priceInKeys = valueInUSD * MarketConstants.keysToDollars;
+			this.priceInRef = valueInUSD * MarketConstants.refToDollars;
+		}
 	}
 	
 }
