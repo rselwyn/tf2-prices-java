@@ -32,27 +32,23 @@ public class ItemFetcher {
 	
 	//Url
 	private String url;
+	
 	public ItemFetcher(String url) throws IOException{
-		//Set doc.  Set the userAgen
+		//Set doc.  Set the userAgent
 		doc = Jsoup.connect("http://backpack.tf"+url).userAgent(userAgent).timeout(10000).get();
 		//Get the string inside of the area for price
-		price = doc.getElementsByClass("item-panel-btns").first().child(0);
-		//Just print the result
-//  	System.out.println(price.text());
+		price = doc.getElementsByClass("text").first();
 		//Decide the primary listing currency
 		decidePrimaryCurrency(price.text());
-		//Print the value
 		//Set the url
 		this.url = java.net.URLDecoder.decode(url, "UTF-8");
 		//Set the name
 		this.name = this.url.split("/")[3];
 		itemTypeToEnumeration(this.url.split("/")[2]);
 		//Set the other values
-
 		setOtherMonetaryValues();
-		
 		//Construct a new item
-		item = new Item(this.priceInRef, this.priceInKeys, this.valueInUSD, null, this.name);
+		item = new Item(this.priceInRef, this.priceInKeys, this.valueInUSD, this.itemQuality, this.name);
 	}
 	
 	/*
@@ -64,7 +60,6 @@ public class ItemFetcher {
 		 * Take the substring and parse it to find the average between the two numbers
 		 */
 		if(which.contains("$")){
-//			System.out.println(which.substring(1));
 			this.valueInUSD = convertDollars(which.substring(1));
 			//Break out so we don't hit the try catch
 			return;
@@ -80,6 +75,7 @@ public class ItemFetcher {
 			e.printStackTrace();
 		}
 	}
+	
 	/*
 	 * Returns the item object
 	 */
@@ -87,9 +83,10 @@ public class ItemFetcher {
 		return this.item;
 	}
 	
-	/*
+	/**
 	 * Takes two numbers seperated by a - and gets the average
 	 * @param	refVal: THe expression to parse
+	 * @param	roundOr: whether or not to round
 	 * @return	the average of the two numbers
 	 */
 	private float convertDashSeperated(String refVal, boolean roundOr){
@@ -117,7 +114,7 @@ public class ItemFetcher {
 	
 	
 	
-	/*
+	/**
 	 * @param exprWithDollars:  The expression in the form of $XY-AB
 	 * @return the average of the two monetary values
 	 */
@@ -126,7 +123,7 @@ public class ItemFetcher {
 		return convertDashSeperated(exprWithDollars,false);
 	}
 	
-	/*
+	/**
 	 * Parse the text to the quality enumeration
 	 * @param	text: the text to be converted to an enum
 	 */
@@ -140,6 +137,9 @@ public class ItemFetcher {
 		else System.out.println("Error parsing enumeration");
 	}
 	
+	/**
+	 * Sets the other monetary values
+	 */
 	private void setOtherMonetaryValues(){
 		if(this.priceInRef != 0.0){
 			this.priceInKeys = priceInRef * MarketConstants.refToKeys;

@@ -21,16 +21,14 @@ public class MarketConstants {
 	
 	static{
 		try{
-			keysToRef = new ItemFetcher(KEY_URL).getItem().getRefPrice(); //working
-			refToKeys = 1/keysToRef; //working
+			keysToRef = new ItemFetcher(KEY_URL).getItem().getRefPrice(); 
+			refToKeys = 1/keysToRef; 
 			
 			refToDollars = 1/(new ItemFetcher(REF_URL).getItem().getDollarPrice());
 			dollarsToRef = 1/refToDollars;
 			
-			dollarsToKeys = 1/(refToDollars * refToKeys); //
+			dollarsToKeys = (refToDollars * refToKeys);
 			keysToDollars = 1/dollarsToKeys;
-			//System.out.println(dollarsToKeys + " " + keysToDollars);
-			
 		}
 		catch (Exception e){
 			e.printStackTrace();
