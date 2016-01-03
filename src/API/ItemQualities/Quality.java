@@ -1,4 +1,4 @@
-package ItemQualities;
+package API.ItemQualities;
 
 public enum Quality {
 		UNIQUE,

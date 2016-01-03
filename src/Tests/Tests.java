@@ -1,10 +1,10 @@
+package Tests;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-
+import API.*;
 import org.junit.Test;
-
-import ItemQualities.*;
 
 public class Tests {
 
