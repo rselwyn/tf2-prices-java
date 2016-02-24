@@ -1,5 +1,5 @@
-package API;
-import API.ItemQualities.*;
+package src.API;
+import src.API.ItemQualities.Quality;
 
 public class Item {
 	private float refPrice;

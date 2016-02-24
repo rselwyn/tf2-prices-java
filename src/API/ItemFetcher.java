@@ -1,4 +1,4 @@
-package API;
+package src.API;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -6,9 +6,7 @@ import java.util.regex.Pattern;
 
 import org.jsoup.*;
 import org.jsoup.nodes.*;
-import org.jsoup.select.Elements;
-
-import API.ItemQualities.*;
+import src.API.ItemQualities.*;
 
 public class ItemFetcher {
 	
